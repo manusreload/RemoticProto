@@ -213,6 +213,7 @@ char *remotic::Protocol::readString() {
 
 void remotic::Protocol::display() {
 #ifndef ARDUINO
+    printf("{bufferSize=%d} ", this->getBufferSize());
     for (int i = 0; i < length; i++) {
         printf("%02X ", (unsigned const char) buffer[i]);
     }
@@ -288,10 +289,10 @@ bool remotic::Protocol::checkBuffer(int size) {
 }
 bool remotic::Protocol::resizeBuffer(int minLength) {
     int newSize = bufferSize;
-    while(newSize <= minLength) {
+    while(newSize < minLength) {
         newSize += REMOTIC_DYNAMIC_ALLOC_MIN_SIZE;
     }
-    if(newSize >= REMOTIC_DYNAMIC_ALLOC_MAX_SIZE) return false;
+    if(newSize > REMOTIC_DYNAMIC_ALLOC_MAX_SIZE) return false;
     bufferSize = newSize;
     unsigned char * tmp = new unsigned char[bufferSize];
 
@@ -301,6 +302,7 @@ bool remotic::Protocol::resizeBuffer(int minLength) {
     for (int i = length; i < bufferSize; i++) {
         tmp[i] = 0;
     }
+    buffer = NULL;
     delete[] buffer;
     buffer = tmp;
     return true;

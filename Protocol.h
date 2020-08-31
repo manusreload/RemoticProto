@@ -32,15 +32,18 @@ typedef unsigned short uint16_t;
 typedef short int16_t;
 typedef int int32_t;
 #endif
-#ifndef MAX_BUFFER
-#define MAX_BUFFER 128
-#endif
 #define REMOTIC_DYNAMIC_ALLOC 1
 #define REMOTIC_LITTLE_ENDIAN 1
 
 #if REMOTIC_DYNAMIC_ALLOC
 #define REMOTIC_DYNAMIC_ALLOC_MIN_SIZE  16
 #define REMOTIC_DYNAMIC_ALLOC_MAX_SIZE  256
+#define MAX_BUFFER  REMOTIC_DYNAMIC_ALLOC_MAX_SIZE
+
+#endif
+
+#ifndef MAX_BUFFER
+#define MAX_BUFFER 128
 #endif
 namespace remotic
 {

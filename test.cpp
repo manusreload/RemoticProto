@@ -35,22 +35,46 @@ int main() {
         message.setMessageId(2);
         char * data = (char *) "\1\2\3\4\5\6";
         message.getPayload().add((unsigned char *) data, 6);
-        message.getPayload().writeNumber(0xFFffFFff, 4);
+        message.getPayload().writeNumber(0xF8ffFFff, 4);
         message.getPayload().writeFloat(100.0);
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
+        message.getPayload().writeString("This is a test");
         message.getPayload().writeString("This is a test");
 
         Protocol aProtocol;
-        message.write(&aProtocol);
+        if(!message.write(&aProtocol)) {
+            std::cerr << "Impossible to write message!" << std::endl;
+        }
         aProtocol.display();
+
+        printf("{id=%d} {type=%d} {hash=%d} {size=%d}\n", message.getMessageId(), message.getMessageType(), message.getPayloadHash(), message.getPayload().getBufferLength());
+
 
         Message message1;
         message1.read(&aProtocol);
 
-        printf("%d %d %d\n", message1.getMessageId(), message1.getMessageType(), message1.getPayloadHash());
+        printf("{id=%d} {type=%d} {hash=%d} {size=%d}\n", message1.getMessageId(), message1.getMessageType(), message1.getPayloadHash(), message1.getPayload().getBufferLength());
         message1.getPayload().display();
 
         message.getPayload().skip(6);
-        printf("%x\n", message.getPayload().readNumber(4));
+        printf("%lx\n", message.getPayload().readNumber(4));
         printf("%f\n", message.getPayload().readFloat());
         printf("%s\n", message.getPayload().readString());
 //        for(int j = 0; j < 10; j++) {

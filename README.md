@@ -43,12 +43,11 @@ The message structure follows the next implementation:
 | 0x01   | 0xA5                   | Start Byte always is 0xA5 |
 | 0x02   | Message ID LSB         | Message ID (LSB)          |
 | 0x03   | Message ID MSB         | Message ID (MSB)          |
-| 0x04   | Message Type (LSB)     | Message Type              |
-| 0x05   | Message Type (MSB)     | Message Type              |
-| 0x06   | Payload Length (LSB)   | Payload Length (LSB)      |
-| 0x07   | Payload Length (MSB)   | Payload Length            |
-| 0x08   | Payload byte 1         | First payload byte        |
-| 0x09   | Payload byte 2         | ...                       |
+| 0x04   | Message Type (1 byte)  | Message Type              |
+| 0x05   | Payload Length (LSB)   | Payload Length (LSB)      |
+| 0x06   | Payload Length (MSB)   | Payload Length            |
+| 0x07   | Payload byte 1         | First payload byte        |
+| 0x08   | Payload byte 2         | ...                       |
 | 0x0n   | Payload byte n         | Last payload byte         |
 | 0x0n+1 | Payload hash CRC (LSB) |                           |
 | 0x0n+2 | Payload hash CRC (MSB) |                           |
@@ -67,6 +66,18 @@ Writes a character string to the buffer. The string must be `\0` terminated. Ret
 `bool writeFloat(float number);`
 
 Writes a number in IEEE representation to the buffer. Returns true if it fits in the buffer and false otherwise.
+
+`uint64 readNumber(int size = 1)`
+
+Read a number from buffer. 
+
+`char * readString(int &leng);`
+
+Read a string from the buffer. The length of the string is sets in the `leng` argument. Returns a pointer to the character string.
+
+`float readFloat();`
+
+Read a number in IEEE representation from the buffer.
 
 ### Dynamic buffer re-allocation
 

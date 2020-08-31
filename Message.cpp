@@ -24,13 +24,15 @@
 
 bool remotic::Message::write(remotic::Protocol *aProtocol) {
 
+    if(!aProtocol->free(6 + payload.getBufferLength() + 3)) return false;
     aProtocol->writeNumber(0xA5);
     aProtocol->writeNumber(this->messageId, 2);
     aProtocol->writeNumber(this->messageType);
     aProtocol->writeNumber(payload.getBufferLength(), 2);
     aProtocol->add(payload.getBuffer(), payload.getBufferLength());
     aProtocol->writeNumber(getPayloadHash(), 2);
-    return aProtocol->writeNumber(0xA5);
+    aProtocol->writeNumber(0xA5);
+    return true;
 }
 int remotic::Message::read(remotic::Protocol *aProtocol) {
     if(aProtocol->available(REMOTIC_MIM_PACKET_SIZE)) {
